@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+    --color-neon: #CCFF00;
+}
+
+@layer utilities {
+    .flex-center {
+        @apply flex items-center justify-center;
+    }
+
+    .shadow-card {
+        @apply rounded-2xl bg-white shadow-lg shadow-purple-500/20 flex flex-col items-center;
+    }
+
+    .neon-glow-card {
+        @apply rounded-xl bg-black border-4 border-gray-900 hover:border-neon/40 hover:shadow-lg hover:shadow-neon/30 transition duration-200 ;
+    }
+}
+
+::selection {
+    background-color: #CCFF00; /* Neon teal */
+    color: #0e0e0e;            /* Dark text for contrast */
+}
+  
+  ::-moz-selection {
+    background-color: #00ffe0;
+    color: #0e0e0e;
+  }

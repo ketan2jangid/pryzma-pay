@@ -23,7 +23,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Generate Prisma client
-        run: cd packages/database && npx prisma generate
+        run: yarn db:generate
       
       - name: Build
         run: yarn build

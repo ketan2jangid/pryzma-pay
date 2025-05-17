@@ -1,5 +1,8 @@
-import prisma from "@repo/database/client";
+import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
+
+const prisma = new PrismaClient();
+
 
 async function allTransactions(req: Request, res: Response): Promise<void> {
     try {

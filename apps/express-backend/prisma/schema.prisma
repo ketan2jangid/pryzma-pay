@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int       @id             @default(autoincrement())
+  email         String    @unique 
+  password      String  
+  
+  balance       Balance?
+  sentTxn       p2p_transactions[]        @relation("SentTxns")
+  receivedTxn   p2p_transactions[]        @relation("ReceivedTxns")
+  onRampTxns    OnRampTransactions[]
+
+  createdAt DateTime  @map("created_at")  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Balance {
+  id        Int       @id                 @default(autoincrement())
+  userEmail String    @map("user_email")  @unique
+  amount    Int       @default(0)
+
+  user      User      @relation(fields: [userEmail], references: [email])
+
+  createdAt DateTime  @map("created_at")  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model p2p_transactions {
+  id          Int       @id                 @default(autoincrement())
+  amount      Int       
+  senderId    String
+  receiverId  String
+  status      TxnStatus @default(Processing)
+
+  sender      User      @relation("SentTxns", fields: [senderId], references: [email])
+  receiver    User      @relation("ReceivedTxns", fields: [receiverId], references: [email])
+
+  createdAt DateTime  @map("created_at")  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model OnRampTransactions {
+  id        Int         @id               @default(autoincrement())
+  userId    Int
+  amount    Int
+  status    TxnStatus   @default(Processing)
+  token     String      @unique
+  startTime DateTime    @default(now())
+
+  user      User        @relation(fields: [userId], references: [id])
+}
+
+enum TxnStatus {
+  Processing    
+  Success
+  Failed
+}

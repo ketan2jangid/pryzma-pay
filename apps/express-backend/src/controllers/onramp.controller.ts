@@ -1,6 +1,9 @@
-import prisma from "@repo/database/client";
 import { Request, Response } from "express";
 import { generateToken } from "../utils/TokenGenerator";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
 
 async function addFund(req: Request, res: Response): Promise<void> {
     try {

@@ -1,10 +1,12 @@
-import prisma from "@repo/database/client";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { PrismaClient } from "@prisma/client";
 
 
 // TODO: ADD ZOD, WINSTON
+
+const prisma = new PrismaClient();
 
 const SALT_ROUNDS = 10;
 async function signup(req: Request, res: Response): Promise<void> {

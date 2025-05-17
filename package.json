@@ -4,6 +4,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "server": "cd apps/express-backend && yarn install && npx prisma generate && tsc -b && pm2 start dist/index.js --name pryzmapay-server",
     "db:generate": "cd packages/database && npx prisma generate && cd ../..",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
